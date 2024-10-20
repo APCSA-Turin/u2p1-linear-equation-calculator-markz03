@@ -13,10 +13,13 @@ public class LinearCalculator{
     //For example, "(1,2)" and "(3,4)" would be two parameter values 
     //You will have to parse the string into 4 integers, representing the 2 points.
     public LinearCalculator(String coord1, String coord2){ // <--add 2 string parameters to this constructor
+        // removes the parentheses from from the two string parameters
         coord1 = coord1.substring(1, coord1.length() - 1);
         coord2 = coord2.substring(1, coord2.length() - 1);
+        // identifies the index at which , appears
         int coord1Index = coord1.indexOf(",");
         int coord2Index = coord2.indexOf(",");
+        // parses the string parameter to int in each variable
         x1 = Integer.parseInt(coord1.substring(0, coord1Index));
         y1 = Integer.parseInt(coord1.substring(coord1Index + 1));
         x2 =  Integer.parseInt(coord2.substring(0, coord2Index));
@@ -57,9 +60,11 @@ public class LinearCalculator{
     //calculates the y intercept of the equation and returns the value to the nearest HUNDREDTH
     //if y-int is undefined, should return -999.99
     public double yInt(){
-        if (x1 == x2) {
+        // checks if the y-int is undefined and returns -999.99
+        if (x1 == x2) { 
             return -999.99;
         }
+        // y = mx + b -> subtract mx from both sides -> y - mx = b (b = y-intercept)
         double yIntercept = y1 - (slope() * x1);
         return roundedToHundredth(yIntercept);
     }
@@ -68,10 +73,11 @@ public class LinearCalculator{
     //calculates the slope of the equations and returns the value to the nearest HUNDREDTH
     //if slope is undefined, should return -999.99
     public double slope(){
+        // checks if the slope is undefined and returns -999.99. 
         if (x1 == x2) {
             return -999.99;
         }
-
+        // (y2-y1) / (x2-x1), concatenates y2-y1 into a double or else when dividing, remainer is truncated
         double slope = (double) (y2-y1) / (x2-x1);
         return roundedToHundredth(slope);
     }
@@ -81,18 +87,23 @@ public class LinearCalculator{
     //if the equation has no slope, the equation should return -> "undefined"
     //HINT: You may need other custom methods to decrease the amount of code in the equations() method
     public String equation(){
+        // if slope is -999.99, returns undefined
         if (slope() == -999.99) {
             return "undefined";
         }
+        // if slope is 0, return y=yInt
         else if (slope() == 0) {
             return "y=" + yInt();
         }
+        // if the y intercept is negative, remove the plus sign (+)
         else if (yInt() < 0) {
             return "y=" + slope() + "x" + yInt();
         }
+        // if y intercept is 0, return y=slope()x
         else if (yInt() == 0) {
             return "y=" + slope() + "x";
         }
+        // if none of the conditions are met, return the slope-intercept form equation
         else {
             return "y="+slope()+"x"+ "+" + yInt();
         }
@@ -102,6 +113,7 @@ public class LinearCalculator{
     //roundedToHundredth(double x)-> returns double
     //calculates the input to the nearest hundredth and returns that value
     public double roundedToHundredth(double x){
+        // 
         double roundedValue = Math.round(x * 100) / 100.00;
         return roundedValue; 
     }
